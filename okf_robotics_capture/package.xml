@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>okf_robotics_capture</name>
+  <version>0.1.0</version>
+  <description>
+    ROS2 node that subscribes to task/planning/diagnostic topics and writes OKF
+    concepts into a bundle on meaningful events only, via a non-blocking buffered
+    writer. Topic names and message types are config-driven, not hardcoded to one
+    nav2 version. See requirements.md's ROS2 distro compatibility section.
+  </description>
+  <maintainer email="ugaldepereira@gmail.com">Ugalde Pereira</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>rclpy</depend>
+  <depend>rosidl_runtime_py</depend>
+  <depend>ament_index_python</depend>
+  <depend>python3-yaml</depend>
+  <depend>okf_robotics_core</depend>
+
+  <!-- Used only by the example config in config/capture_params.yaml, not by the
+       node's own logic, which is config-driven and doesn't hardcode message types. -->
+  <exec_depend>action_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>diagnostic_msgs</exec_depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

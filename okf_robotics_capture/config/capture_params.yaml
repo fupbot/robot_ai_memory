@@ -1,0 +1,33 @@
+# Default capture configuration for the Turtlebot + Gazebo demo scenario
+# (see requirements.md's Demo scenario section). Topic names and message types are
+# deliberately config-driven, not hardcoded in capture_node.py, so this can be
+# repointed at a different nav2 version or a non-nav2 planner without code changes.
+
+bundle_root: "~/okf_robotics_bundle"
+environment_resource: "map://gazebo_house_world"
+
+# How often the background flush thread drains the buffer to disk (seconds).
+flush_period_sec: 2.0
+
+# Bounded in-memory queue size before overflow spills to buffer_spill_dir instead of
+# blocking the subscription callback or dropping events. See requirements.md's Safety
+# & real-time behavior section.
+buffer_max_size: 1000
+
+watches:
+  # Standard ROS2 action status topic (action_msgs/msg/GoalStatusArray) — generic to
+  # any action server, not specific to nav2's NavigateToPose.
+  - topic: "/navigate_to_pose/_action/status"
+    msg_type: "action_msgs/msg/GoalStatusArray"
+    trigger: "task_lifecycle"
+
+  # Republished plan topic; the first message after a task starts is the initial
+  # plan, every subsequent one is treated as a replan.
+  - topic: "/plan"
+    msg_type: "nav_msgs/msg/Path"
+    trigger: "replan"
+
+  # Standard ROS2 diagnostics topic (diagnostic_msgs/msg/DiagnosticArray).
+  - topic: "/diagnostics"
+    msg_type: "diagnostic_msgs/msg/DiagnosticArray"
+    trigger: "diagnostics"

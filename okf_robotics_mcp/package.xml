@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>okf_robotics_mcp</name>
+  <version>0.1.0</version>
+  <description>
+    MCP server exposing read-only query/search over an OKF bundle so an LLM-based
+    planner can ask "what happened last time in this environment." No rclpy
+    dependency and no LLM reasoning of its own — see requirements.md's Package
+    architecture and Encoding approach sections.
+  </description>
+  <maintainer email="ugaldepereira@gmail.com">Ugalde Pereira</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>python3-yaml</depend>
+  <depend>okf_robotics_core</depend>
+
+  <!-- The `mcp` Python SDK (PyPI: mcp) isn't in rosdep's default keys, so it isn't
+       declared as a <depend> here — install it via `pip install -r requirements.txt`
+       alongside the colcon build. server.py guards against the SDK's v1/v2 API split
+       (FastMCP renamed to MCPServer in mcp 2.0, July 2026) at import time. -->
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

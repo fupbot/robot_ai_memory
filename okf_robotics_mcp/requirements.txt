@@ -1,0 +1,4 @@
+# The `mcp` Python SDK isn't in rosdep's default keys, so it's tracked here instead
+# of package.xml. server.py works against either the pre-2.0 (FastMCP) or 2.0+
+# (MCPServer) API — see the compatibility note there.
+mcp

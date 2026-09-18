@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>okf_robotics_core</name>
+  <version>0.1.0</version>
+  <description>
+    Pure-Python OKF (Open Knowledge Format) bundle read/write, schema validation, and
+    search library for robotics-specific memory concepts. No rclpy dependency, so it
+    stays independently pip-installable and usable outside a sourced ROS environment.
+  </description>
+  <maintainer email="ugaldepereira@gmail.com">Ugalde Pereira</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>python3-yaml</depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
