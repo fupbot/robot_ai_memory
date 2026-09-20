@@ -30,3 +30,11 @@ def test_search_with_no_matches_returns_empty(tmp_path):
     bundle.write_concept("t1.md", TaskAttempt(body="hello\n"))
     backend = GrepSearchBackend(bundle)
     assert backend.search("nonexistent-term") == []
+
+
+def test_search_is_case_insensitive(tmp_path):
+    bundle = Bundle(tmp_path)
+    bundle.write_concept("t1.md", TaskAttempt(body="Replanned near the doorway.\n"))
+
+    results = GrepSearchBackend(bundle).search("replanned")
+    assert [r.path for r in results] == [Path("t1.md")]

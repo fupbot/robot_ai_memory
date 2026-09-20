@@ -22,6 +22,7 @@ class FailureEncoder(Encoder):
             body += f"\nDuring [task attempt]({link}).\n"
         concept = FailureNote(
             title=event.fields.get("name") or "Failure",
+            resource=session.environment_resource,
             generated={"by": _GENERATED_BY, "at": event.stamp},
             body=body,
         )

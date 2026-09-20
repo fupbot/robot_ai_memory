@@ -1,0 +1,62 @@
+x-service-template: &service_template
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  working_dir: /workspace
+  stdin_open: true
+  tty: true
+  command: bash
+
+services:
+  # Matches the three LTS distros in requirements.md's ROS2 distro compatibility
+  # section (Kilted is intentionally excluded). Each service keeps its own build
+  # volumes so colcon artifacts from one distro never leak into another.
+  humble:
+    <<: *service_template
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: humble
+    volumes:
+      - .:/workspace/src/robot_ai_memory
+      - humble_build:/workspace/build
+      - humble_install:/workspace/install
+      - humble_log:/workspace/log
+
+  jazzy:
+    <<: *service_template
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: jazzy
+    volumes:
+      - .:/workspace/src/robot_ai_memory
+      - jazzy_build:/workspace/build
+      - jazzy_install:/workspace/install
+      - jazzy_log:/workspace/log
+
+  lyrical:
+    <<: *service_template
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: lyrical
+    volumes:
+      - .:/workspace/src/robot_ai_memory
+      - lyrical_build:/workspace/build
+      - lyrical_install:/workspace/install
+      - lyrical_log:/workspace/log
+
+volumes:
+  humble_build:
+  humble_install:
+  humble_log:
+  jazzy_build:
+  jazzy_install:
+  jazzy_log:
+  lyrical_build:
+  lyrical_install:
+  lyrical_log:

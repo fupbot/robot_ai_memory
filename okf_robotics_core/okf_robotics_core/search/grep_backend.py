@@ -56,7 +56,7 @@ class GrepSearchBackend(SearchBackend):
         # -H forces the filename prefix even with a single candidate file, which
         # both grep and rg otherwise omit — required for the "path:line:snippet"
         # parsing below to work regardless of how many files match the filters.
-        args = [executable, "-H", "-n", "--", query] + [
+        args = [executable, "-H", "-n", "-i", "--", query] + [
             str(self.bundle.root / p) for p in candidates
         ]
         result = subprocess.run(args, capture_output=True, text=True)

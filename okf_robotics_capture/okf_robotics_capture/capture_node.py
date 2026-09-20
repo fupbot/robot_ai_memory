@@ -84,17 +84,21 @@ class CaptureNode(Node):
 
     def _make_callback(self, topic, msg_type, trigger, encoder):
         def callback(msg):
-            fields = message_to_ordereddict(msg)
-            stamp = dt.datetime.now(dt.timezone.utc).isoformat()
-            event = trigger.check(topic, msg_type, fields, stamp)
-            if event is None:
-                return
-            if event.kind == "task_started":
-                for other in self._triggers:
-                    if other is not trigger:
-                        other.reset()
-            for op in encoder.encode(event, self.session):
-                self.buffer.put(op)
+            # A capture node must never take itself down over one bad message.
+            try:
+                fields = message_to_ordereddict(msg)
+                stamp = dt.datetime.now(dt.timezone.utc).isoformat()
+                event = trigger.check(topic, msg_type, fields, stamp)
+                if event is None:
+                    return
+                if event.kind == "task_started":
+                    for other in self._triggers:
+                        if other is not trigger:
+                            other.reset()
+                for op in encoder.encode(event, self.session):
+                    self.buffer.put(op)
+            except Exception as exc:
+                self.get_logger().error(f"Failed to process message on {topic}: {exc!r}")
 
         return callback
 

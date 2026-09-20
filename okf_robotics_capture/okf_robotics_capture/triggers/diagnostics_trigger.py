@@ -9,12 +9,14 @@ _ERROR_LEVEL = 2  # diagnostic_msgs/msg/DiagnosticStatus.ERROR
 
 
 def _level_as_int(level) -> int:
-    # rosidl_runtime_py has represented the `byte` DiagnosticStatus.level field as
-    # either a raw int or a single-byte `bytes` object across different distro
-    # versions — normalize defensively rather than assume one or the other (see
-    # requirements.md's ROS2 distro compatibility section).
+    # rosidl_runtime_py has represented the `byte` DiagnosticStatus.level field as a
+    # raw int, a single-byte `bytes` object, or (Jazzy) a one-character str like
+    # '\x02' across different distro versions — normalize defensively rather than
+    # assume one (see requirements.md's ROS2 distro compatibility section).
     if isinstance(level, (bytes, bytearray)):
         return level[0]
+    if isinstance(level, str) and len(level) == 1:
+        return ord(level)
     return int(level)
 
 

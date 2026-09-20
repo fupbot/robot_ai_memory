@@ -19,6 +19,7 @@ class ReplanEncoder(Encoder):
         link = "/" + session.current_task_path.as_posix()
         concept = ReplanEvent(
             title="Replan",
+            resource=session.environment_resource,
             generated={"by": _GENERATED_BY, "at": event.stamp},
             body=f"Replanned at {event.stamp} during [task attempt]({link}).\n",
         )
